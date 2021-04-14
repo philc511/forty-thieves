@@ -5,11 +5,41 @@ class Card:
     def __str__(self):
         return self.value + self.suit
 
+class Stacks:
+    def __init__(self):
+        self.stacks = []
+        for _ in range(10):
+            stack = []
+            self.stacks.append(stack)
+
+    def deal(deck):
+        for _ in range(4):
+            stack.append(deck.pop())
+
+    
 def top(card_pile):
     if (len(card_pile) == 0) :
         return "  "
     else:
         return str(card_pile[-1])
+
+def move_to_target(stack, target_piles):
+    if len(stack) == 0:
+        return
+    top_card = stack[-1]
+    
+    # Are we looking to place an Ace?
+    if top_card.value == "A":
+        next(p for p in target_piles if len(p) == 0).append(stack.pop())
+    else:
+        # look for matching pile 
+        for p in target_piles:
+            if (len(p) > 0
+                    and p[-1].suit == stack[-1].suit
+                    and cards_values[p[-1].value] + 1 == cards_values[stack[-1].value]):
+                p.append(stack.pop())
+                break
+            
 
 # The type of suit
 suits = ['C', 'D', 'H', 'S']
@@ -68,9 +98,10 @@ while True:
         discard.append(deck.pop())
     elif len(move) == 1:
         from_stack = ord(move[0]) - 97
-        target_piles[0].append(stacks[from_stack].pop())
+        move_to_target(stacks[from_stack], target_piles)
     else:
         from_stack = ord(move[0]) - 97
         to_stack = ord(move[1]) - 97
+        move_to_stack(stacks[to_stack], stacks[from_stack])
         stacks[to_stack].append(stacks[from_stack].pop())
     
