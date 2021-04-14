@@ -5,7 +5,11 @@ class Card:
     def __str__(self):
         return self.value + self.suit
 
-def top(card_pile)
+def top(card_pile):
+    if (len(card_pile) == 0) :
+        return "  "
+    else:
+        return str(card_pile[-1])
 
 # The type of suit
 suits = ['C', 'D', 'H', 'S']
@@ -29,6 +33,8 @@ for suit in suits:
         deck.append(Card(suit, card))
         deck.append(Card(suit, card))
 
+discard = []
+
 stacks = []
 for i in range(10):
     stack = []
@@ -44,7 +50,7 @@ for i in range(8):
 
 
 while True:
-    print(str(deck[-1]) + "    " + " ".join([(p[-1].str() + " ") for p in target_piles]))
+    print(str(deck[-1]) + "    " + " ".join([(top(p) + " ") for p in target_piles]))
     print("a  b  c  d  e  f  g  h  i  j")
     max_stack = len(max(stacks, key=lambda s: len(s)))
     for i in range(max_stack):
@@ -55,8 +61,16 @@ while True:
             else:
                 line = line + "   "
         print(line)
+    
     move = input()
-    from_stack = ord(move[0]) - 97
-    to_stack = ord(move[1]) - 97
-    stacks[to_stack].append(stacks[from_stack].pop())
+    
+    if len(move) == 0:
+        discard.append(deck.pop())
+    elif len(move) == 1:
+        from_stack = ord(move[0]) - 97
+        target_piles[0].append(stacks[from_stack].pop())
+    else:
+        from_stack = ord(move[0]) - 97
+        to_stack = ord(move[1]) - 97
+        stacks[to_stack].append(stacks[from_stack].pop())
     
